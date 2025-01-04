@@ -27,54 +27,21 @@
                 data-shape="rectangular"
                 data-logo_alignment="left">
             </div>
-
-            <button id="google_signout">Signout</button>
                 <a href="#" onclick="signOut();">Sign out</a>
             </div>
-        <div class="col sm-6"></div>
+        <div class="col sm-6">
+            <h1>Login manual</h1>
+            <hr>
+            <form class="d-grid">
+                <input type="text" name="correo" class="form-control mb-2" placeholder="Correo"/>
+                <input type="text" name="password" class="form-control mb-2" placeholder="Password"/>
+                <button type="submit" class="btn btn-primary">Ingresar</button>
+            </form>
+        </div>
     </div>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script>
-
-        console.log(window.location.hostname.includes('localhost'))
-
-        var url = ( window.location.hostname.includes('localhost') )
-                    ? 'http://localhost:8080/api/auth/google'
-                    : 'https://restserver-curso-fher.herokuapp.com/api/auth/google';
-
-
-        function handleCredentialResponse(response) {
-            
-            const body = {id_token: response.credential};
-
-            // console.log('id_token',response.credential);
-            fetch('http://localhost:8080/api/auth/google',{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            })
-                .then(resp => resp.json())
-                .then(resp => {
-                    console.log(resp);
-                    localStorage.setItem('email',resp.usuario.correo);
-                })
-                .catch(console.warn)
-
-        }
-
-        function signOut() {
-            console.log(google.accounts.id);
-            google.accounts.id.disableAutoSelect();
-
-            google.accounts.id.revoke(localStorage.getItem('email'),done => {
-                localStorage.clear();
-                location.reload();
-            });
-        }
-    </script>
+    <script src="./js/auth.js"></script>
 
 </body>
 </html>
